@@ -8,4 +8,4 @@
     -port 27015 \
     +sys_ticrate 333 \
     +maxplayers 10 \
-    +map aim_sk_ak_m4
+    +map de_dust2

@@ -47,7 +47,7 @@
         1 - for all
         2 - only for T
         3 - only for CT */
-        "redm_randomspawn": "0",
+        "redm_randomspawn": "1",
 
         /* Check the spawn point for visibility by enemies (line of sight).
         0 - disable
