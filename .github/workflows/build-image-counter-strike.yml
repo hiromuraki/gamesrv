@@ -5,10 +5,16 @@ on:
         branches:
             - main
             - master
+        paths:
+            - 'counter-strike/**'
+            - '.github/workflows/build-image-counter-strike.yml'
     pull_request:
         branches:
             - main
             - master
+        paths:
+            - 'counter-strike/**'
+            - '.github/workflows/build-image-counter-strike.yml'
     workflow_dispatch:
 
 jobs:
@@ -45,7 +51,8 @@ jobs:
             - name: Build and push
               uses: docker/build-push-action@v5
               with:
-                  context: .
+                  # 调整上下文目录
+                  context: ./counter-strike
                   push: true
                   # 同时打上 latest 和 日期 tag
                   tags: |
