@@ -90,10 +90,10 @@
         "redm_open_equip_menu": "0",
 
         // How much to restore HP when killing an enemy.
-        "redm_healer": "100",
+        "redm_healer": "10",
 
         // How much to restore HP when killing with HS an enemy.
-        "redm_healer_hs": "100",
+        "redm_healer_hs": "20",
 
         // Mute the sounds of other players at a distance.
         "redm_sounds_distance": "1500",
