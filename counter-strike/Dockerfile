@@ -40,4 +40,6 @@ RUN chmod +x /app/start-server.sh
 
 EXPOSE 27015/udp 27015/tcp
 
+VOLUME [ "/app/cstrike/maps" ]
+
 CMD ["bash", "/app/start-server.sh"]
