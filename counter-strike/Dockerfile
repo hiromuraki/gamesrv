@@ -34,9 +34,9 @@ USER gamesrv
 WORKDIR /app
 COPY --chown=1000:1000 --from=builder ["/home/steam/steamcmd/linux32/steamclient.so", "/home/gamesrv/.steam/sdk32/steamclient.so"]
 COPY --chown=1000:1000 --from=builder /home/steam/Steam/steamapps/common/Half-Life /app
+RUN rm -rf /app/valve/maps/*
 COPY --chown=1000:1000 ./patch/ /app
 RUN chmod +x /app/start-server.sh
-RUN rm -rf /app/valve/maps/*
 
 EXPOSE 27015/udp 27015/tcp
 
