@@ -52,7 +52,7 @@ jobs:
               uses: docker/build-push-action@v5
               with:
                   # 调整上下文目录
-                  context: ./counter-strike
+                  context: ./counter-strike-source
                   push: true
                   # 同时打上 latest 和 日期 tag
                   tags: |
