@@ -4,8 +4,8 @@
     -insecure \
     -nomaster \
     -strictportbind \
-    -ipv4 \
     -ip 0.0.0.0 \
     -port 27015 \
+    -norestart \
     +maxplayers 16 \
     +map de_dust2
