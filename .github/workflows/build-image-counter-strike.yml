@@ -57,6 +57,7 @@ jobs:
                   # 同时打上 latest 和 日期 tag
                   tags: |
                       ghcr.io/${{ steps.prep.outputs.owner }}/cstrike:latest
-                      ghcr.io/${{ steps.prep.outputs.owner }}/cstrike:${{ steps.prep.outputs.date }}
+                      ghcr.io/${{ steps.prep.outputs.owner }}/counter-strike:latest
+                      ghcr.io/${{ steps.prep.outputs.owner }}/counter-strike:${{ steps.prep.outputs.date }}
                   cache-from: type=gha
                   cache-to: type=gha,mode=max
