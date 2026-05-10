@@ -23,5 +23,7 @@ EXPOSE 25575/tcp
 
 VOLUME [ "/app/World" ]
 VOLUME [ "/app/backups" ]
+VOLUME [ "/app/Journeymap" ]
+VOLUME [ "/app/tcnodetracker" ]
 
-CMD ["bash"]
+CMD ["bash", "/app/start-server.sh"]
