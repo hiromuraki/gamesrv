@@ -25,6 +25,8 @@ RUN chmod +x /app/TerrariaServer
 RUN chmod +x /app/TerrariaServer.bin.x86_64
 COPY --chown=1000:1000 ["./patch/", "/app"]
 
+ENV TZ=Asia/Shanghai
+
 EXPOSE 7777/tcp
 
 VOLUME [ "/app/world" ]

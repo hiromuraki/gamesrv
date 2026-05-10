@@ -36,6 +36,8 @@ COPY --from=builder --chown=1000:1000 ["/home/steam/steamcmd/linux32/steamclient
 COPY --from=builder --chown=1000:1000 ["/home/steam/Steam/steamapps/common/Counter-Strike Source Dedicated Server", "/app"]
 COPY --chown=1000:1000 ["./patch/", "/app"]
 
+ENV TZ=Asia/Shanghai
+
 EXPOSE 27015/udp 27015/tcp
 
 CMD ["bash", "/app/start-server.sh"]

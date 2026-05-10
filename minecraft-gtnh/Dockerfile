@@ -18,6 +18,8 @@ WORKDIR /app
 COPY --from=builder --chown=1000:1000 ["/downloads/gtnh", "/app"]
 COPY --chown=1000:1000 ["./patch/", "/app"]
 
+ENV TZ=Asia/Shanghai
+
 EXPOSE 25565/tcp
 EXPOSE 25575/tcp
 
