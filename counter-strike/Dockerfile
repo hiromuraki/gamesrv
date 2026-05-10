@@ -24,19 +24,16 @@ RUN dpkg --add-architecture i386 \
 
 RUN groupadd -g 1000 gamesrv && \
     useradd -u 1000 -g gamesrv -m -s /bin/bash gamesrv
-
 RUN mkdir -p /app && chown 1000:1000 /app
-USER gamesrv
+USER 1000:1000
 
 WORKDIR /app
+
 COPY --from=builder --chown=1000:1000 ["/home/steam/steamcmd/linux32/steamclient.so", "/home/gamesrv/.steam/sdk32/steamclient.so"]
 COPY --from=builder --chown=1000:1000 ["/home/steam/Steam/steamapps/common/Half-Life", "/app"]
 RUN rm -rf /app/valve/maps/*
 COPY --chown=1000:1000 ["./patch/", "/app"]
-RUN chmod +x /app/start-server.sh
 
 EXPOSE 27015/udp 27015/tcp
-
-VOLUME [ "/app/cstrike/maps" ]
 
 CMD ["bash", "/app/start-server.sh"]
