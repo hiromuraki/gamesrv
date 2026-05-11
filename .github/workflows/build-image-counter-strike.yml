@@ -36,8 +36,8 @@ jobs:
                       tag_suffix: base-latest
                     - target: dm
                       tag_suffix: dm-latest
-                    - target: fun
-                      tag_suffix: fun-latest
+                    - target: versus
+                      tag_suffix: versus-latest
 
         # 赋予 GITHUB_TOKEN 推送镜像到包仓库的权限
         permissions:
