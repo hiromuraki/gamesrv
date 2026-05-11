@@ -1,13 +1,18 @@
-FROM cm2network/steamcmd AS builder
+FROM cm2network/steamcmd AS downloader
 
+# =================
+# 资源下载
+# =================
 RUN /home/steam/steamcmd/steamcmd.sh \
     +login anonymous \
     +app_set_config 90 mod cstrike \
     +app_update 90 -beta steam_legacy validate \
     +quit
 
-
-FROM debian:trixie-slim
+# ===================
+# 基座镜像
+# ===================
+FROM debian:trixie-slim AS base
 
 RUN dpkg --add-architecture i386 \
     && apt-get update \
@@ -29,13 +34,34 @@ USER 1000:1000
 
 WORKDIR /app
 
-COPY --from=builder --chown=1000:1000 ["/home/steam/steamcmd/linux32/steamclient.so", "/home/gamesrv/.steam/sdk32/steamclient.so"]
-COPY --from=builder --chown=1000:1000 ["/home/steam/Steam/steamapps/common/Half-Life", "/app"]
-RUN rm -rf /app/valve/maps/*
-COPY --chown=1000:1000 ["./patch/", "/app"]
-
-ENV TZ=Asia/Shanghai
+COPY --from=downloader --chown=1000:1000 ["/home/steam/steamcmd/linux32/steamclient.so", "/home/gamesrv/.steam/sdk32/steamclient.so"]
+COPY --from=downloader --chown=1000:1000 ["/home/steam/Steam/steamapps/common/Half-Life", "/app"]
+RUN rm -rf /app/cstrike/maps/* \
+    && rm -rf /app/valve/maps/*
+COPY --chown=1000:1000 ["./patch/base/", "/app"]
 
 EXPOSE 27015/udp 27015/tcp
 
-CMD ["bash", "/app/start-server.sh"]
+ENV TZ=Asia/Shanghai
+
+# ===================
+# 分支：死亡竞赛
+# ===================
+
+FROM base AS dm
+
+COPY --from=downloader --chown=1000:1000 ["/home/steam/Steam/steamapps/common/Half-Life/cstrike/maps/de_dust2.bsp", "/app/cstrike/maps"]
+COPY --from=downloader --chown=1000:1000 ["/home/steam/Steam/steamapps/common/Half-Life/cstrike/maps/de_dust2.txt", "/app/cstrike/maps"]
+COPY --chown=1000:1000 ["./patch/dm/", "/app"]
+
+CMD ["bash", "/app/start-server.sh", "+map", "de_dust2"]
+
+# ===================
+# 分支：对决
+# ===================
+
+FROM base AS versus
+
+COPY --chown=1000:1000 ["./patch/versus/", "/app"]
+
+CMD ["bash", "/app/start-server.sh", "+map", "aim_sk_ak_m4"]
