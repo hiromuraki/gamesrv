@@ -6,4 +6,4 @@
     -ip 0.0.0.0 \
     -port 27015 \
     +maxplayers 16 \
-    +map de_dust2
+    "$@"

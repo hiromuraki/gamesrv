@@ -2,6 +2,7 @@
 # 资源下载
 # =================
 FROM cm2network/steamcmd AS downloader
+
 RUN /home/steam/steamcmd/steamcmd.sh +quit
 RUN /home/steam/steamcmd/steamcmd.sh \
     +login anonymous \
@@ -39,10 +40,18 @@ USER 1000:1000
 
 COPY --from=downloader --chown=1000:1000 ["/home/steam/steamcmd/linux32/steamclient.so", "/home/gamesrv/.steam/sdk32/steamclient.so"]
 COPY --from=downloader --chown=1000:1000 ["/home/steam/Steam/steamapps/common/Counter-Strike Source Dedicated Server", "/app"]
+RUN rm -rf /app/cstrike/maps/*
 COPY --chown=1000:1000 ["./patch/", "/app"]
 
 ENV TZ=Asia/Shanghai
 
 WORKDIR /app
 
-CMD ["bash", "/app/start-server.sh"]
+# ===================
+# 分支：对决
+# ===================
+FROM base AS versus
+
+COPY --chown=1000:1000 ["./patch/versus/", "/app"]
+
+CMD ["bash", "/app/start-server.sh", "+map", "aim_map_esl"]

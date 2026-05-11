@@ -1,8 +1,8 @@
-FROM cm2network/steamcmd AS downloader
-
 # =================
 # 资源下载
 # =================
+FROM cm2network/steamcmd AS downloader
+
 RUN /home/steam/steamcmd/steamcmd.sh +quit
 RUN /home/steam/steamcmd/steamcmd.sh \
     +login anonymous \
