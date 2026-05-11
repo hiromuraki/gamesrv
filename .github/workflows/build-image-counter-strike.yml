@@ -21,7 +21,7 @@ env:
     # 默认推送到 GitHub 自带的镜像仓库 (GHCR)
     REGISTRY: ghcr.io
     # 你的 GitHub 用户名/仓库名，例如 octocat/cstrike
-    IMAGE_NAME: ${{ github.repository }}
+    IMAGE_NAME: ${{ github.repository_owner }}/counter-strike
 
 jobs:
     build-and-push:
