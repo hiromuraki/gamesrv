@@ -1,13 +1,21 @@
-FROM cm2network/steamcmd AS builder
+FROM cm2network/steamcmd AS downloader
 
+# =================
+# 资源下载
+# =================
+RUN /home/steam/steamcmd/steamcmd.sh +quit
 RUN /home/steam/steamcmd/steamcmd.sh \
     +login anonymous \
     +app_set_config 90 mod czero \
     +app_update 90 -beta steam_legacy validate \
     +quit
 
+# ===================
+# 基座镜像
+# ===================
+FROM debian:trixie-slim AS base
 
-FROM debian:trixie-slim
+EXPOSE 27015/udp 27015/tcp
 
 RUN dpkg --add-architecture i386 \
     && apt-get update \
@@ -27,15 +35,33 @@ RUN groupadd -g 1000 gamesrv && \
 RUN mkdir -p /app && chown 1000:1000 /app
 USER 1000:1000
 
-WORKDIR /app
-
-COPY --from=builder --chown=1000:1000 ["/home/steam/steamcmd/linux32/steamclient.so", "/home/gamesrv/.steam/sdk32/steamclient.so"]
-COPY --from=builder --chown=1000:1000 ["/home/steam/Steam/steamapps/common/Half-Life", "/app"]
-RUN rm -rf /app/valve/maps/*
-COPY --chown=1000:1000 ["./patch/", "/app"]
+COPY --from=downloader --chown=1000:1000 ["/home/steam/steamcmd/linux32/steamclient.so", "/home/gamesrv/.steam/sdk32/steamclient.so"]
+COPY --from=downloader --chown=1000:1000 ["/home/steam/Steam/steamapps/common/Half-Life", "/app"]
+RUN rm -rf /app/cstrike/maps/* \
+&& rm -rf /app/czero/maps/* \
+&& rm -rf /app/valve/maps/*
+COPY --chown=1000:1000 ["./patch/base/", "/app"]
 
 ENV TZ=Asia/Shanghai
 
-EXPOSE 27015/udp 27015/tcp
+WORKDIR /app
 
-CMD ["bash", "/app/start-server.sh"]
+# ===================
+# 分支：死亡竞赛
+# ===================
+FROM base AS dm
+
+COPY --from=downloader --chown=1000:1000 ["/home/steam/Steam/steamapps/common/Half-Life/czero/maps/de_dust2_cz.bsp", "/app/czero/maps"]
+COPY --from=downloader --chown=1000:1000 ["/home/steam/Steam/steamapps/common/Half-Life/czero/maps/de_dust2_cz.txt", "/app/czero/maps"]
+COPY --chown=1000:1000 ["./patch/dm/", "/app"]
+
+CMD ["bash", "/app/start-server.sh", "+map", "de_dust2_cz"]
+
+# ===================
+# 分支：对决
+# ===================
+FROM base AS versus
+
+COPY --chown=1000:1000 ["./patch/versus/", "/app"]
+
+CMD ["bash", "/app/start-server.sh", "+map", "aim_sk_ak_m4"]

@@ -1,12 +1,20 @@
-FROM cm2network/steamcmd AS builder
+# =================
+# 资源下载
+# =================
+FROM cm2network/steamcmd AS downloader
 
+RUN /home/steam/steamcmd/steamcmd.sh +quit
 RUN /home/steam/steamcmd/steamcmd.sh \
     +login anonymous \
     +app_update 1136510 validate \
     +quit
 
-
+# ===================
+# 基座镜像
+# ===================
 FROM debian:trixie-slim
+
+EXPOSE 44400/udp 44444/tcp
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libstdc++6 \
@@ -17,16 +25,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN groupadd -g 1000 gamesrv && \
     useradd -u 1000 -g gamesrv -m -s /bin/bash gamesrv
-
 RUN mkdir -p /app && chown 1000:1000 /app
 USER gamesrv
 
-WORKDIR /app
-COPY --chown=1000:1000 --from=builder ["/home/steam/steamcmd/linux64/steamclient.so", "/home/gamesrv/.steam/sdk64/steamclient.so"]
-COPY --chown=1000:1000 --from=builder ["/home/steam/Steam/steamapps/common/Dedicated Server", "/app"]
+COPY --chown=1000:1000 --from=downloader ["/home/steam/steamcmd/linux64/steamclient.so", "/home/gamesrv/.steam/sdk64/steamclient.so"]
+COPY --chown=1000:1000 --from=downloader ["/home/steam/Steam/steamapps/common/Dedicated Server", "/app"]
 COPY --chown=1000:1000 ./patch/ /app
-RUN chmod +x /app/start-server.sh
 
-EXPOSE 44400/udp 44444/tcp
+WORKDIR /app
 
 CMD ["bash", "/app/start-server.sh"]
