@@ -33,11 +33,11 @@ jobs:
             matrix:
                 include:
                     - target: base
-                      tag_suffix: base-latest
+                      tag_suffix: latest
                     - target: dm
-                      tag_suffix: dm-latest
+                      tag_suffix: dm
                     - target: versus
-                      tag_suffix: versus-latest
+                      tag_suffix: versus
 
         # 赋予 GITHUB_TOKEN 推送镜像到包仓库的权限
         permissions:
