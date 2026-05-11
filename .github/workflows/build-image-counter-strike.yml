@@ -74,7 +74,6 @@ jobs:
               uses: docker/build-push-action@v5
               with:
                   context: ./counter-strike
-                  file: ./Dockerfile
                   push: true
                   # 只要构建到矩阵当前的目标阶段即可
                   target: ${{ matrix.target }}
