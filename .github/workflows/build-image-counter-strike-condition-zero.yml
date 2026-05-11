@@ -1,4 +1,4 @@
-name: Build and Push CS 1.6 Server Images
+name: Build and Push CSCZ Server Images
 
 on:
     push:

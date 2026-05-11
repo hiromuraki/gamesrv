@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./hlds_run -game cstrike \
+./hlds_run -game czero \
     -insecure \
     -nomaster \
     -strictportbind \
