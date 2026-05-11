@@ -12,7 +12,7 @@ RUN /home/steam/steamcmd/steamcmd.sh \
 # ===================
 # 基座镜像
 # ===================
-FROM debian:trixie-slim
+FROM debian:trixie-slim AS base
 
 EXPOSE 27015/udp 27015/tcp
 
