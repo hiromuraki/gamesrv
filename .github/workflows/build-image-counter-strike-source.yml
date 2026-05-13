@@ -32,8 +32,6 @@ jobs:
                 include:
                     - target: base
                       tag_suffix: latest
-                    - target: dm
-                      tag_suffix: dm
                     - target: versus
                       tag_suffix: versus
 
