@@ -23,7 +23,7 @@ VOLUME [ "/app/tshock" ]
 
 RUN groupadd -g 1000 gamesrv && \
     useradd -u 1000 -g gamesrv -m -s /bin/bash gamesrv
-RUN mkdir -p /app/tshock && chown -R 1000:1000 /app
+RUN mkdir -p /app && chown 1000:1000 /app
 USER 1000:1000
 
 COPY --from=downloader --chown=1000:1000 ["/downloads","/app"]
