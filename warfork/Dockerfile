@@ -37,7 +37,7 @@ WORKDIR /app
 # ===================
 # 分支：双人对决
 # ===================
-FROM base AS versus
+FROM base AS dual
 
 COPY --chown=1000:1000 ["./patch/dual/", "/app"]
 
