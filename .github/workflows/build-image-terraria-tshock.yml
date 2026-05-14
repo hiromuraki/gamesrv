@@ -5,14 +5,8 @@ on:
         branches:
             - main
         paths:
-            - 'terraria-tshock/**'
-            - '.github/workflows/build-image-terraria-tshock.yml'
-    pull_request:
-        branches:
-            - main
-        paths:
-            - 'terraria-tshock/**'
-            - '.github/workflows/build-image-terraria-tshock.yml'
+            - "terraria-tshock/**"
+            - ".github/workflows/build-image-terraria-tshock.yml"
     workflow_dispatch:
 
 jobs:
@@ -54,7 +48,7 @@ jobs:
                   push: true
                   # 同时打上 latest 和 日期 tag
                   tags: |
-                      ghcr.io/${{ steps.prep.outputs.owner }}/terraria-tshock:latest
                       ghcr.io/${{ steps.prep.outputs.owner }}/terraria-tshock:${{ steps.prep.outputs.date }}
+                      ghcr.io/${{ steps.prep.outputs.owner }}/terraria-tshock:latest
                   cache-from: type=gha
                   cache-to: type=gha,mode=max

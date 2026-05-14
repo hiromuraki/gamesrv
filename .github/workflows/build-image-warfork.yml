@@ -5,14 +5,8 @@ on:
         branches:
             - main
         paths:
-            - 'warfork/**'
-            - '.github/workflows/build-image-warfork.yml'
-    pull_request:
-        branches:
-            - main
-        paths:
-            - 'warfork/**'
-            - '.github/workflows/build-image-warfork.yml'
+            - "warfork/**"
+            - ".github/workflows/build-image-warfork.yml"
     workflow_dispatch:
 
 jobs:
@@ -54,7 +48,7 @@ jobs:
                   push: true
                   # 同时打上 latest 和 日期 tag
                   tags: |
-                      ghcr.io/${{ steps.prep.outputs.owner }}/warfork:latest
                       ghcr.io/${{ steps.prep.outputs.owner }}/warfork:${{ steps.prep.outputs.date }}
+                      ghcr.io/${{ steps.prep.outputs.owner }}/warfork:latest
                   cache-from: type=gha
                   cache-to: type=gha,mode=max

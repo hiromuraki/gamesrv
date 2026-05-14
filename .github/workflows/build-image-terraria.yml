@@ -5,14 +5,8 @@ on:
         branches:
             - main
         paths:
-            - 'terraria/**'
-            - '.github/workflows/build-image-terraria.yml'
-    pull_request:
-        branches:
-            - main
-        paths:
-            - 'terraria/**'
-            - '.github/workflows/build-image-terraria.yml'
+            - "terraria/**"
+            - ".github/workflows/build-image-terraria.yml"
     workflow_dispatch:
 
 jobs:
@@ -54,7 +48,7 @@ jobs:
                   push: true
                   # 同时打上 latest 和 日期 tag
                   tags: |
-                      ghcr.io/${{ steps.prep.outputs.owner }}/terraria:latest
                       ghcr.io/${{ steps.prep.outputs.owner }}/terraria:${{ steps.prep.outputs.date }}
+                      ghcr.io/${{ steps.prep.outputs.owner }}/terraria:latest
                   cache-from: type=gha
                   cache-to: type=gha,mode=max
