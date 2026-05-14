@@ -30,8 +30,15 @@ USER gamesrv
 
 COPY --chown=1000:1000 --from=downloader ["/home/steam/steamcmd/linux64/steamclient.so", "/home/gamesrv/.steam/sdk64/steamclient.so"]
 COPY --chown=1000:1000 --from=downloader ["/home/steam/Steam/steamapps/common/Dedicated Server", "/app"]
-COPY --chown=1000:1000 ./patch/ /app
+COPY --chown=1000:1000 ./patch/base /app
 
 WORKDIR /app
+
+# ===================
+# 分支：双人对决
+# ===================
+FROM base AS versus
+
+COPY --chown=1000:1000 ["./patch/dual/", "/app"]
 
 CMD ["bash", "/app/start-server.sh"]

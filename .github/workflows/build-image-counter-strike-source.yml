@@ -1,4 +1,4 @@
-name: Build and Push CS 1.6 Server Images
+name: Build and Push CSSource Server Images
 
 on:
     push:
@@ -19,7 +19,6 @@ jobs:
     build-and-push:
         runs-on: ubuntu-latest
 
-        # 取消了 strategy matrix，所有操作在同一台 Runner 上串行执行，确保共享 BuildKit 缓存
         permissions:
             contents: read
             packages: write
