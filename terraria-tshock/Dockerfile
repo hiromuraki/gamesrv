@@ -15,7 +15,7 @@ RUN tar -xf TShock-Beta-linux-x64-Release.tar -C /downloads
 # ===================
 # 基座镜像
 # ===================
-FROM mcr.microsoft.com/dotnet/runtime:9.0
+FROM mcr.microsoft.com/dotnet/runtime:9.0-alpine
 
 EXPOSE 7777/tcp
 
