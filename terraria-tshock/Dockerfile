@@ -21,8 +21,8 @@ EXPOSE 7777/tcp
 
 VOLUME [ "/app/tshock" ]
 
-RUN groupadd -g 1000 gamesrv && \
-    useradd -u 1000 -g gamesrv -m -s /bin/bash gamesrv
+RUN addgroup -g 1000 gamesrv && \
+    adduser -u 1000 -G gamesrv -D -s /bin/sh gamesrv
 RUN mkdir -p /app && chown 1000:1000 /app
 USER 1000:1000
 
@@ -31,4 +31,4 @@ COPY --chown=1000:1000 ./patch/ /app/
 
 WORKDIR /app
 
-CMD ["bash", "/app/start-server.sh"]
+CMD ["sh", "/app/start-server.sh"]

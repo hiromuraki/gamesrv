@@ -1,3 +1,3 @@
-#!/bin/bash
+#!/bin/sh
 
 ./TShock.Server -config server.config
