@@ -19,7 +19,7 @@ FROM eclipse-temurin:25-jre
 
 EXPOSE 25565/tcp 25575/tcp
 
-VOLUME [ "/app/world", "/app/world_backups" ]
+VOLUME [ "/app/world", "/app/world_backup" ]
 
 RUN mkdir -p /app && chown 1000:1000 /app
 USER 1000:1000
