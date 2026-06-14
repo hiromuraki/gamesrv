@@ -8,9 +8,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /downloads
-RUN wget https://maven.neoforged.net/releases/net/neoforged/neoforge/21.1.230/neoforge-21.1.230-installer.jar
-RUN java -jar neoforge-21.1.230-installer.jar --fat-offline \
-    && java -jar neoforge-21.1.230-installer-fat.jar --install-server ./app
+RUN wget https://maven.neoforged.net/releases/net/neoforged/neoforge/21.1.233/neoforge-21.1.233-installer.jar
+RUN java -jar neoforge-21.1.233-installer.jar --fat-offline \
+    && java -jar neoforge-21.1.233-installer-fat.jar --install-server ./app
 
 # ===================
 # 基座镜像
