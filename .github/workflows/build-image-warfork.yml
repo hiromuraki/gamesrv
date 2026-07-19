@@ -61,3 +61,15 @@ jobs:
                   target: dual
                   tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:dual
                   cache-from: type=gha
+            
+            # ---------------------------------------------------
+            # 3. 构建 Deathmatch 模式
+            # ---------------------------------------------------
+            - name: Build and push Dual image
+              uses: docker/build-push-action@v5
+              with:
+                  context: ./warfork
+                  push: true
+                  target: dm
+                  tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:dm
+                  cache-from: type=gha
