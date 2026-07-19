@@ -42,3 +42,12 @@ FROM base AS dual
 COPY --chown=1000:1000 ["./patch/dual/", "/app"]
 
 CMD ["bash", "/app/start-server.sh"]
+
+# ===================
+# 分支：死亡竞赛
+# ===================
+FROM base AS dm
+
+COPY --chown=1000:1000 ["./patch/dm/", "/app"]
+
+CMD ["bash", "/app/start-server.sh"]
