@@ -8,4 +8,4 @@
 # Uncomment the next line to set it.
 -Xms6G
 -Xmx6G
--javaagent:authlib-injector-1.2.7.jar=https://mcskin.dsrv.top/api/yggdrasil
+-javaagent:authlib-injector-1.2.8.jar=https://mcskin.dsrv.top/api/yggdrasil
