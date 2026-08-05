@@ -31,4 +31,4 @@ FROM base AS vanilla
 
 COPY --chown=1000:1000 ["./patch/", "/app"]
 
-CMD ["bash", "/app/start-server.sh", "-nosteam"]
+CMD ["bash", "/app/start-server.sh", "-nosteam", "-cachedir=/data", "-servername", "pz-server"]
