@@ -5,6 +5,8 @@ FROM cm2network/steamcmd AS downloader
 
 RUN /home/steam/steamcmd/steamcmd.sh +quit
 RUN /home/steam/steamcmd/steamcmd.sh \
+    +@sSteamCmdForcePlatformType linux \
+    +force_install_dir /downloaded \
     +login anonymous \
     +app_update 380870 validate \
     +quit
@@ -18,11 +20,11 @@ EXPOSE 16261/udp 16262/tcp
 
 VOLUME ["/data"]
 
+ENV TZ=Asia/Shanghai
+
 USER 1000:1000
 
 COPY --from=downloader --chown=1000:1000 ["/home/steam/Steam/steamapps/common/Project Zomboid Dedicated Server", "/app"]
-
-ENV TZ=Asia/Shanghai
 
 WORKDIR /app
 

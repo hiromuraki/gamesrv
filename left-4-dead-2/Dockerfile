@@ -5,14 +5,19 @@ FROM cm2network/steamcmd AS downloader
 
 RUN /home/steam/steamcmd/steamcmd.sh +quit
 RUN /home/steam/steamcmd/steamcmd.sh \
+    +@sSteamCmdForcePlatformType linux \
     +login anonymous \
-    +app_update 232330 validate \
+    +app_update 222860 validate \
     +quit
 
 # ===================
 # 基座镜像
 # ===================
 FROM debian:trixie-slim AS base
+
+EXPOSE 27015/udp 27015/tcp
+
+ENV TZ=Asia/Shanghai
 
 RUN dpkg --add-architecture i386 \
     && apt-get update \
@@ -35,10 +40,6 @@ RUN groupadd -g 1000 gamesrv && \
     useradd -u 1000 -g gamesrv -m -s /bin/bash gamesrv
 RUN mkdir -p /app && chown 1000:1000 /app
 USER 1000:1000
-
-EXPOSE 27015/udp 27015/tcp
-
-ENV TZ=Asia/Shanghai
 
 COPY --from=downloader --chown=1000:1000 ["/home/steam/steamcmd/linux32/steamclient.so", "/home/gamesrv/.steam/sdk32/steamclient.so"]
 

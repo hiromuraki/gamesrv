@@ -20,13 +20,14 @@ EXPOSE 25565/tcp 25575/tcp
 
 VOLUME [ "/app/World", "/app/backups" ]
 
+ENV TZ=Asia/Shanghai
+
 RUN mkdir -p /app && chown 1000:1000 /app
 USER 1000:1000
 
 COPY --from=builder --chown=1000:1000 ["/downloads/gtnh", "/app"]
 COPY --chown=1000:1000 ["./patch/", "/app"]
 
-ENV TZ=Asia/Shanghai
 
 WORKDIR /app
 
