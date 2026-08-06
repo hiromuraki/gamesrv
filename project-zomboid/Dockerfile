@@ -16,6 +16,8 @@ FROM eclipse-temurin:25-jre AS base
 
 EXPOSE 16261/udp 16262/tcp
 
+VOLUME ["/data"]
+
 USER 1000:1000
 
 COPY --from=downloader --chown=1000:1000 ["/home/steam/Steam/steamapps/common/Project Zomboid Dedicated Server", "/app"]
