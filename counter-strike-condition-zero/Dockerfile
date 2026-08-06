@@ -15,8 +15,6 @@ RUN /home/steam/steamcmd/steamcmd.sh \
 # ===================
 FROM debian:trixie-slim AS base
 
-EXPOSE 27015/udp 27015/tcp
-
 RUN dpkg --add-architecture i386 \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -35,14 +33,16 @@ RUN groupadd -g 1000 gamesrv && \
 RUN mkdir -p /app && chown 1000:1000 /app
 USER 1000:1000
 
+EXPOSE 27015/udp 27015/tcp
+
+ENV TZ=Asia/Shanghai
+
 COPY --from=downloader --chown=1000:1000 ["/home/steam/steamcmd/linux32/steamclient.so", "/home/gamesrv/.steam/sdk32/steamclient.so"]
 COPY --from=downloader --chown=1000:1000 ["/home/steam/Steam/steamapps/common/Half-Life", "/app"]
 RUN rm -rf /app/cstrike/maps/* \
-&& rm -rf /app/czero/maps/* \
-&& rm -rf /app/valve/maps/*
+    && rm -rf /app/czero/maps/* \
+    && rm -rf /app/valve/maps/*
 COPY --chown=1000:1000 ["./patch/base/", "/app"]
-
-ENV TZ=Asia/Shanghai
 
 WORKDIR /app
 

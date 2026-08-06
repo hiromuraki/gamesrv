@@ -14,8 +14,6 @@ RUN /home/steam/steamcmd/steamcmd.sh \
 # ===================
 FROM debian:trixie-slim AS base
 
-EXPOSE 44400/udp 44444/tcp
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libstdc++6 \
     libcurl4 \
@@ -27,6 +25,10 @@ RUN groupadd -g 1000 gamesrv && \
     useradd -u 1000 -g gamesrv -m -s /bin/bash gamesrv
 RUN mkdir -p /app && chown 1000:1000 /app
 USER gamesrv
+
+EXPOSE 44400/udp 44444/tcp
+
+ENV TZ=Asia/Shanghai
 
 COPY --chown=1000:1000 --from=downloader ["/home/steam/steamcmd/linux64/steamclient.so", "/home/gamesrv/.steam/sdk64/steamclient.so"]
 COPY --chown=1000:1000 --from=downloader ["/home/steam/Steam/steamapps/common/Dedicated Server", "/app"]

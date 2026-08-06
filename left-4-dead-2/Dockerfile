@@ -4,6 +4,10 @@
 FROM cm2network/steamcmd AS downloader
 
 RUN /home/steam/steamcmd/steamcmd.sh +quit
+RUN /home/steam/steamcmd/steamcmd.sh \
+    +login anonymous \
+    +app_update 232330 validate \
+    +quit
 
 # ===================
 # 基座镜像
@@ -11,7 +15,7 @@ RUN /home/steam/steamcmd/steamcmd.sh +quit
 FROM debian:trixie-slim AS base
 
 RUN dpkg --add-architecture i386 \
-&& apt-get update \
+    && apt-get update \
     && apt-get install -y --no-install-recommends \
         # 64-bit 依赖
         ca-certificates \
@@ -32,13 +36,11 @@ RUN groupadd -g 1000 gamesrv && \
 RUN mkdir -p /app && chown 1000:1000 /app
 USER 1000:1000
 
-COPY --from=downloader --chown=1000:1000 ["/home/steam/steamcmd/linux32/steamclient.so", "/home/gamesrv/.steam/sdk32/steamclient.so"]
-
 EXPOSE 27015/udp 27015/tcp
 
-VOLUME ["/app"]
-
 ENV TZ=Asia/Shanghai
+
+COPY --from=downloader --chown=1000:1000 ["/home/steam/steamcmd/linux32/steamclient.so", "/home/gamesrv/.steam/sdk32/steamclient.so"]
 
 WORKDIR /app
 
@@ -47,6 +49,6 @@ WORKDIR /app
 # ===================
 FROM base AS modded
 
-COPY --chown=1000:1000 ["./patch/", "/app-patch"]
+COPY --chown=1000:1000 ["./patch/", "/app"]
 
-CMD cp -f /app-patch/start-server.sh /app/start-server.sh && bash /app/start-server.sh +map c1m2_street
+CMD ["bash", "/app/start-server.sh", "+map", "c1m2_street"]
